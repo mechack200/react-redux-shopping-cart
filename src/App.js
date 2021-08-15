@@ -6,7 +6,23 @@ import data from './data.json';
 // import suburbs from 'json!../suburbs.json';
 
 export default class App extends Component {
-	state = { products: data.products, size: '', sort: '', cartItems: [] };
+	constructor() {
+		super();
+		this.state = {
+			products: data.products,
+			size: '',
+			sort: '',
+			cartItems: [],
+		};
+	}
+	componentDidMount = () => {
+		JSON.parse(localStorage.getItem('my_colors'));
+		const cartItems = localStorage.getItem('cartItems')
+			? JSON.parse(localStorage.getItem('cartItems'))
+			: [];
+		this.setState({ cartItems });
+		console.log(this.state.cartItems);
+	};
 
 	filterProducts = (e) => {
 		console.log(e.target.value);
@@ -63,10 +79,10 @@ export default class App extends Component {
 			cartItems.push({ ...product, count: 1 });
 		}
 		this.setState({
-			cartItems: cartItems,
+			cartItems,
 		});
-
 		console.log(this.state.cartItems);
+		localStorage.setItem('CartItems', JSON.stringify(this.state.cartItems));
 	};
 
 	removeItemFromCart = (cartItem) => {
@@ -74,6 +90,7 @@ export default class App extends Component {
 		this.setState({
 			cartItems: cartItems.filter((item) => cartItem._id !== item._id),
 		});
+		localStorage.setItem('CartItems', JSON.stringify(this.state.cartItems));
 	};
 
 	render() {
