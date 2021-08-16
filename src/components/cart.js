@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
 import { formatCurrency } from '../util';
+import Fade from 'react-reveal/Fade';
+import Rotate from 'react-reveal/Rotate';
+
 import './cart.css';
 export default class cart extends Component {
 	constructor() {
 		super();
 		this.state = {
+			selectedProductItem: null,
 			checkout: false,
 			name: '',
 			email: '',
@@ -46,27 +50,29 @@ export default class cart extends Component {
 				)}
 				<div>
 					<div className="cart">
-						<ul className="cart-items">
-							{cartItems.map((item) => (
-								<li key={item._id}>
-									<div>
-										<img src={item.image} alt={item._id} />
-									</div>
-									<div>
-										<div className="title">{item.title}</div>
-										<div className="right">
-											{formatCurrency(item.price)} X {item.count}
-											<button
-												className="button"
-												onClick={() => removeItemFromCart(item)}
-											>
-												Remove from cart
-											</button>
+						<Fade left cascade>
+							<ul className="cart-items">
+								{cartItems.map((item) => (
+									<li key={item._id}>
+										<div>
+											<img src={item.image} alt={item._id} />
 										</div>
-									</div>
-								</li>
-							))}
-						</ul>
+										<div>
+											<div className="title">{item.title}</div>
+											<div className="right">
+												{formatCurrency(item.price)} X {item.count}
+												<button
+													className="button"
+													onClick={() => removeItemFromCart(item)}
+												>
+													Remove from cart
+												</button>
+											</div>
+										</div>
+									</li>
+								))}
+							</ul>
+						</Fade>
 					</div>
 					{/* if cart item is not equals to o then  */}
 					{cartItems.length !== 0 && (
@@ -92,47 +98,49 @@ export default class cart extends Component {
 									</button>
 								</div>
 							</div>
-							{this.state.checkout && (
-								<div className="cart">
-									<form onSubmit={this.createOrder}>
-										<ul className="form-container">
-											<li>
-												<label>Email</label>
-												<input
-													name="email"
-													type="email"
-													require="true"
-													onChange={this.handleInputChange}
-												/>
-											</li>
-											<li>
-												<label>Name</label>
-												<input
-													name="name"
-													type="text"
-													require="true"
-													onChange={this.handleInputChange}
-												/>
-											</li>
-											<li>
-												<label>AddresSs</label>
-												<input
-													name="address"
-													type="text"
-													require="true"
-													onChange={this.handleInputChange}
-												/>
-											</li>
-											<li>
-												<button type="submit" className="button primary">
-													{' '}
-													checkout
-												</button>
-											</li>
-										</ul>
-									</form>
-								</div>
-							)}
+							<Rotate right cascade>
+								{this.state.checkout && (
+									<div className="cart">
+										<form onSubmit={this.createOrder}>
+											<ul className="form-container">
+												<li>
+													<label>Email</label>
+													<input
+														name="email"
+														type="email"
+														require="true"
+														onChange={this.handleInputChange}
+													/>
+												</li>
+												<li>
+													<label>Name</label>
+													<input
+														name="name"
+														type="text"
+														require="true"
+														onChange={this.handleInputChange}
+													/>
+												</li>
+												<li>
+													<label>AddresSs</label>
+													<input
+														name="address"
+														type="text"
+														require="true"
+														onChange={this.handleInputChange}
+													/>
+												</li>
+												<li>
+													<button type="submit" className="button primary">
+														{' '}
+														checkout
+													</button>
+												</li>
+											</ul>
+										</form>
+									</div>
+								)}
+							</Rotate>
 						</div>
 					)}
 				</div>
