@@ -15,13 +15,15 @@ export default class App extends Component {
 			cartItems: [],
 		};
 	}
+	creatOrder = (order) => {
+		alert('need to saveorder for ' + order.name);
+	};
 	componentDidMount = () => {
 		JSON.parse(localStorage.getItem('my_colors'));
 		const cartItems = localStorage.getItem('cartItems')
 			? JSON.parse(localStorage.getItem('cartItems'))
 			: [];
 		this.setState({ cartItems });
-		console.log(this.state.cartItems);
 	};
 
 	filterProducts = (e) => {
@@ -118,6 +120,7 @@ export default class App extends Component {
 							<Cart
 								cartItems={this.state.cartItems}
 								removeItemFromCart={this.removeItemFromCart}
+								creatOrder={this.creatOrder}
 							/>
 						</div>
 					</div>
